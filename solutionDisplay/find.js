@@ -5,9 +5,9 @@ import {
   gauss_elimination_partial_pivoting,
 } from "../Algorithms/gauss_elimination.js";
 import { gaussJordan } from "../Algorithms/gauss-jordan.js";
-import { numberOfEquations } from "../app.js";
 import { displayNumericalSolutions } from "./jacobiSeidelDisplay.js";
 import { displayGaussSolution } from "./gaussDisplay.js";
+import { numberOfEquations } from "../app.js";
 
 export const parameters = {
   matrix: null,

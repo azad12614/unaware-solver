@@ -13,7 +13,7 @@ function calc_zero_rows_of_Matrix(array) {
       if (array_copy[i][i] == 0) {
         //pivoting
         let row = max_row(array_copy, i);
-        swap(array_copy, i, row);
+        swapRows(array_copy, i, row);
       }
       var factor = -array_copy[k][i] / array_copy[i][i];
       for (var j = i; j < array_copy.length + 1; j++) {
@@ -51,7 +51,7 @@ function calc_zero_rows_of_Matrix(array) {
   res_arr[1] -= aug_matrix_zero_rows;
   return res_arr;
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function max_row(array, i) {
   // Search for maximum in this column
   var max = array[i][i];
@@ -65,14 +65,12 @@ function max_row(array, i) {
   return maxRow;
 }
 
-function swap(array, i, maxRow) {
-  for (var j = i; j < array.length + 1; j++) {
-    var tmp = array[maxRow][j];
-    array[maxRow][j] = array[i][j];
-    array[i][j] = tmp;
-  }
+function swapRows(matrix, row1, row2) {
+  const tempRow = [...matrix[row1]];
+  matrix[row1] = [...matrix[row2]];
+  matrix[row2] = tempRow;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function scale_matrix(array) {
   var max = -1;
   for (var i = 0; i < array.length; i++) {
@@ -105,15 +103,15 @@ export function gauss_elimination_standard(matrix, precision) {
   //1 ------> unique solution
   //-1 ------> infinite
   str = "";
-  var swap_str = "";
+  var swapRows_str = "";
   //forward elimination
   for (var i = 0; i < array.length; i++) {
     for (var k = i + 1; k < array.length; k++) {
       if (array[i][i] == 0) {
         //pivoting
         let row = max_row(array, i);
-        swap(array, i, row);
-        swap_str.concat("swap row ", i, " with row ", row);
+        swapRows(array, i, row);
+        swapRows_str.concat("swapRows row ", i, " with row ", row);
       }
       var factor = -array[k][i] / array[i][i];
       factor = factor.toPrecision(precision);
@@ -205,11 +203,11 @@ export function gauss_elimination_partial_pivoting(matrix, precision) {
   str = "";
   for (var i = 0; i < array.length; i++) {
     var maxRow = max_row(scaled_matrix, i);
-    swap(array, i, maxRow);
-    swap(scaled_matrix, i, maxRow);
+    swapRows(array, i, maxRow);
+    swapRows(scaled_matrix, i, maxRow);
     if (i != maxRow) {
       solution.steps.push(
-        new Step(str.concat("swap row ", i, " with row ", maxRow), array)
+        new Step(str.concat("swapRows row ", i, " with row ", maxRow), array)
       );
     }
     for (var k = i + 1; k < array.length; k++) {
